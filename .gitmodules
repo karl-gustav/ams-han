@@ -1,0 +1,3 @@
+[submodule "vendor/github.com/goburrow/serial"]
+	path = vendor/github.com/goburrow/serial
+	url = git@github.com:goburrow/serial.git
