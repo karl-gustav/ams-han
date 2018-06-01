@@ -10,6 +10,7 @@ func ByteParser(bytePackages chan []byte) chan Message {
 				Error: err,
 			}
 		}
+		close(messages)
 	}()
 	return messages
 }

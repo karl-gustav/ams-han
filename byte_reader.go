@@ -8,14 +8,18 @@ var buf = make([]byte, 1024)
 
 func ByteReader(ch chan byte) chan []byte {
 	bytePackages := make(chan []byte)
+	isOpen := false
 	go func() {
 		readBytes(ch, buf, 0, 3)
 
 		for {
 			if err := VerifyStart(buf); err != nil {
-				fmt.Println("[ERROR]", err)
 				buf[0], buf[1] = buf[1], buf[2]
-				buf[2] = <-ch
+				buf[2], isOpen = <-ch
+				if !isOpen {
+					break
+				}
+				fmt.Println("[ERROR]", err)
 				continue
 			}
 
@@ -33,6 +37,7 @@ func ByteReader(ch chan byte) chan []byte {
 
 			readBytes(ch, buf, 0, 3)
 		}
+		close(bytePackages)
 	}()
 	return bytePackages
 }
