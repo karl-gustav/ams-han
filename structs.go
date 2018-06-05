@@ -2,36 +2,36 @@ package ams
 
 import "time"
 
-type MessageType int
+type messageTypes int
 
-func (m *MessageType) GetInt() int {
+func (m *messageTypes) GetInt() int {
 	return int(*m)
 }
 
-func (m *MessageType) GetByte() byte {
+func (m *messageTypes) GetByte() byte {
 	return byte(*m)
 }
 
 const (
-	MessageType1           MessageType = 1
-	TwoFasesMessageType2   MessageType = 9
-	TwoFasesMessageType3   MessageType = 14
-	ThreeFasesMessageType2 MessageType = 13
-	ThreeFasesMessageType3 MessageType = 18
+	messageType1           messageTypes = 1
+	twoFasesMessageType2   messageTypes = 9
+	twoFasesMessageType3   messageTypes = 14
+	threeFasesMessageType2 messageTypes = 13
+	threeFasesMessageType3 messageTypes = 18
 )
 
 type BaseItem struct {
-	MessageType MessageType `json:"Message_Type"`
-	MeterTime   time.Time   `json:"Meter_Time"`
-	HostTime    time.Time   `json:"Host_Time"`
+	MessageType messageTypes `json:"Message_Type"`
+	MeterTime   time.Time    `json:"Meter_Time"`
+	HostTime    time.Time    `json:"Host_Time"`
 }
 
-type Items1 struct {
+type MessageType1 struct { // Also known as aka Items1
 	BaseItem
 	ActPowPos int `json:"Act_Pow_P_Q1_Q4"` /* OBIS Code 1.0.1.7.0.255 - Active Power + (Q1+Q4) */
 }
 
-type Items9 struct {
+type TwoFasesMessageType2 struct { // Also known as aka Items9
 	BaseItem
 	ObisListVersion string `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -44,7 +44,7 @@ type Items9 struct {
 	VoltL1          int    `json:"Volt_L1"`           /* Voltage L1 */
 }
 
-type Items13 struct {
+type ThreeFasesMessageType2 struct { // Also known as Items13
 	BaseItem
 	ObisListVersion string `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -61,7 +61,7 @@ type Items13 struct {
 	VoltL3          int    `json:"Volt_L3"`           /* Voltage L3 */
 }
 
-type Items14 struct {
+type TwoFasesMessageType3 struct { // Also known as Items14
 	BaseItem
 	ObisListVersion string    `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string    `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -79,7 +79,7 @@ type Items14 struct {
 	ReactEnergyNeg  int       `json:"React_Energy_M"`
 }
 
-type Items18 struct {
+type ThreeFasesMessageType3 struct { // Also known as Items18
 	BaseItem
 	ObisListVersion string    `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string    `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */

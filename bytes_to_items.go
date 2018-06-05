@@ -30,7 +30,7 @@ func bytesToItem(bytes []byte) (v interface{}, err error) {
 		return nil, fmt.Errorf("Unknown message type: %02x\n\n\n", bytes[offset])
 	}
 
-	messageType := MessageType(bytes[offset+1])
+	messageType := messageTypes(bytes[offset+1])
 	offset += 2
 
 	now := time.Now()
@@ -42,24 +42,24 @@ func bytesToItem(bytes []byte) (v interface{}, err error) {
 	}
 
 	switch messageType {
-	case MessageType1:
-		v = &Items1{
+	case messageType1:
+		v = &MessageType1{
 			BaseItem: baseItem,
 		}
-	case TwoFasesMessageType2:
-		v = &Items9{
+	case twoFasesMessageType2:
+		v = &TwoFasesMessageType2{
 			BaseItem: baseItem,
 		}
-	case ThreeFasesMessageType2:
-		v = &Items13{
+	case threeFasesMessageType2:
+		v = &ThreeFasesMessageType2{
 			BaseItem: baseItem,
 		}
-	case TwoFasesMessageType3:
-		v = &Items14{
+	case twoFasesMessageType3:
+		v = &TwoFasesMessageType3{
 			BaseItem: baseItem,
 		}
-	case ThreeFasesMessageType3:
-		v = &Items18{
+	case threeFasesMessageType3:
+		v = &ThreeFasesMessageType3{
 			BaseItem: baseItem,
 		}
 	}
@@ -137,7 +137,7 @@ func byteArrayToTime(bytes []byte) time.Time {
 	return time.Date(year, month, day, hour, min, sec, 0, time.Local)
 }
 
-func throwUnknownFieldTypeError(fieldName string, messageType MessageType, fieldType string) {
+func throwUnknownFieldTypeError(fieldName string, messageType messageTypes, fieldType string) {
 	panic(fmt.Sprintf(
 		"Don't recognice the type of field %s (message type %v, field type %s), will only recognice int, string and time.Time!",
 		fieldName,

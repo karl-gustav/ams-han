@@ -55,7 +55,7 @@ func ReadLenght(buf []byte) (int, error) {
 	return lenght + numberOfFrameDelimiters - bytesAlreadyRead, nil
 }
 
-func ReadMessageType(buf []byte) (MessageType, error) {
+func ReadMessageType(buf []byte) (messageTypes, error) {
 	if len(buf) <= 18 {
 		return 0, fmt.Errorf(ErrWrongLength, len(buf))
 	}
@@ -63,7 +63,7 @@ func ReadMessageType(buf []byte) (MessageType, error) {
 	if len(buf) <= offset {
 		return 0, fmt.Errorf(ErrWrongLength, len(buf))
 	}
-	return MessageType(buf[offset+1]), nil
+	return messageTypes(buf[offset+1]), nil
 }
 
 func getFirst4Bits(input byte, n uint) byte {
