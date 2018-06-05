@@ -1,45 +1,48 @@
 package ams
 
 import (
-	"fmt"
 )
 
 var buf = make([]byte, 1024)
 
-func ByteReader(ch chan byte) chan []byte {
+func ByteReader(ch chan byte) (chan []byte, chan error) {
 	bytePackages := make(chan []byte)
-	isOpen := false
+	errors := make(chan error)
+	channelIsOpen := false
 	go func() {
 		readBytes(ch, buf, 0, 3)
 
 		for {
 			if err := VerifyStart(buf); err != nil {
 				buf[0], buf[1] = buf[1], buf[2]
-				buf[2], isOpen = <-ch
-				if !isOpen {
+				buf[2], channelIsOpen = <-ch
+				if !channelIsOpen {
 					break
 				}
-				fmt.Println("[ERROR]", err)
+				errors <- err
 				continue
 			}
 
 			numberOfRemainingBytes, err := ReadLenght(buf)
 			if err != nil {
-				fmt.Println(err)
+				errors <- err
+				continue
 			}
 
 			readBytes(ch, buf, 3, numberOfRemainingBytes)
 			bytePackage := buf[:3+numberOfRemainingBytes]
 			if err := VerifyEnd(bytePackage); err != nil {
-				fmt.Println(err)
+				errors <- err
+				continue
 			}
 			bytePackages <- bytePackage
 
 			readBytes(ch, buf, 0, 3)
 		}
 		close(bytePackages)
+		close(errors)
 	}()
-	return bytePackages
+	return bytePackages, errors
 }
 
 func readBytes(ch chan byte, buf []byte, start int, stop int) {

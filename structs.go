@@ -20,11 +20,6 @@ const (
 	ThreeFasesMessageType3 MessageType = 18
 )
 
-type Message struct {
-	Data  interface{}
-	Error error
-}
-
 type BaseItem struct {
 	MessageType MessageType `json:"Message_Type"`
 	MeterTime   time.Time   `json:"Meter_Time"`

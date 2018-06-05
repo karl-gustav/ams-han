@@ -8,20 +8,29 @@ This libary converts a byte stream (chan byte) into structs for parsing messages
 Usage
 -----
 
-    // byteStream is a chan byte, you need to create this yourself
-    bytePackages := ams.ByteReader(byteStream)
-    messages := ams.ByteParser(bytePackages)
+    func main() {
+        byteStream := getByteChannel() // byteStream is a `chan byte`, you need to create this yourself
 
-    for message := range messages {
-        if message.Error != nil {
-            fmt.Println("[ERROR]", message.Error)
-        } else {
+        bytePackages, errors := ams.ByteReader(byteStream)
+        printErrors(errors)
+        messages, errors := ams.ByteParser(bytePackages)
+        printErrors(errors)
+
+        for message := range messages {
             jsonString, _ := json.Marshal(message.Data)
             fmt.Printf("%s\n", jsonString)
         }
     }
 
-If you need logging you can easily add that your self:
+    func printErrors(errors chan error) {
+        go func() {
+            for err := range errors {
+                fmt.Println("[ERROR]", err)
+            }
+        }()
+    }
+
+If you need logging of the byte channel you can easily add that your self:
 
     bytePackages := ams.ByteReader(byteStream)
     if verbose {
@@ -36,6 +45,7 @@ If you need logging you can easily add that your self:
                 fmt.Printf("\nBuffer(%d): \n[%s]\n", len(bytes), strings.Join(byteArrayToHexStringArray(bytes), ", "))
                 out <- bytes
             }
+            close(out)
         }()
         return out
     }
