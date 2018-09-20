@@ -115,7 +115,7 @@ func bytesToItem(bytes []byte) (v interface{}, err error) {
 
 func byteArrayToInt64(bytes []byte) int64 {
 	if len(bytes) > 8 {
-		panic("Tried to convert byte array greater than 4 to int")
+		panic("Tried to convert byte array greater than 8 to int64")
 	}
 	data := int64(0)
 	for _, b := range bytes {
