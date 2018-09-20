@@ -17,7 +17,7 @@ Usage
         printErrors(errors)
 
         for message := range messages {
-            jsonString, _ := json.Marshal(message.Data)
+            jsonString, _ := json.Marshal(message)
             fmt.Printf("%s\n", jsonString)
         }
     }
