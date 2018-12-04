@@ -13,7 +13,7 @@ const (
 	fixedBytesLenght = 4
 )
 
-func bytesToItem(bytes []byte) (v interface{}, err error) {
+func BytesParser(bytes []byte) (v interface{}, err error) {
 	if bytes[17] != 0x09 {
 		return nil, fmt.Errorf("Unknown header type: %02x\n\n\n", bytes[14])
 	}
