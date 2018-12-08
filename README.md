@@ -9,7 +9,7 @@ Usage
 -----
 
 	func main() {
-		byteStream := getByteChannel() // byteStream is a `chan byte`, you need to create this yourself
+		byteStream := getByteChannel() // byteStream is a `chan byte`, read more below
 		next := ams.ByteReader(byteStream)
 		for {
 			bytePackage, _ := next()
@@ -17,6 +17,9 @@ Usage
 			fmt.Printf("%+v\n", message)
 		}
 	}
+
+`byteStream` is a `chan byte` from the serial port, you need to create this yourself a good example can be found here:
+https://github.com/karl-gustav/ams-han-cmd/blob/master/main.go
 
 With error handlin:
 
