@@ -2,7 +2,10 @@ package ams
 
 import (
 	"fmt"
+	"strings"
 	"time"
+
+	"github.com/karl-gustav/ams-han/crc16"
 )
 
 const (
@@ -18,14 +21,21 @@ type cursorType struct {
 // BytesParser converts the mbus byte array into go structs
 func BytesParser(byteList []byte) (v interface{}, err error) {
 	if byteList[17] != 0x09 {
-		return nil, fmt.Errorf("unknown header type: %02x", byteList[14])
+		return nil, fmt.Errorf("unknown header type %02x, expecting %02x", byteList[14], 0x09)
 	}
 	// Don't know what's stored in byteList[23] ¯\_(ツ)_/¯
-	messageTimestamp := byteArrayToTime(append(byteList[19:23], byteList[24:27]...))
+	messageTimestamp := byteArrayToTime(append(append([]byte{}, byteList[19:23]...), byteList[24:27]...))
 
 	cursor := cursorType{17 + 2 + int(byteList[18])}
 	if byteList[cursor.position] != 0x02 {
-		return nil, fmt.Errorf("unknown message type: %02x", byteList[cursor.position])
+		return nil, fmt.Errorf("unknown message type %02x, expecting %02x", byteList[cursor.position], 0x02)
+	}
+
+	// Checksum everything except delimiters (start & end bytes) and checksum bytes
+	packageChecksum := uint16(byteList[len(byteList)-2])<<8 + uint16(byteList[len(byteList)-3])
+	calculatedChecksum := crc16.ChecksumCCITT(byteList[1 : len(byteList)-3])
+	if calculatedChecksum != packageChecksum {
+		return nil, fmt.Errorf("Calculated checksum was %x but the transmitted checksum was %x\n%s", calculatedChecksum, packageChecksum, bytesToHexStrings(byteList[1:len(byteList)-1]))
 	}
 
 	messageType := messageTypes(byteList[cursor.position+1])
@@ -179,4 +189,12 @@ func bytesToInt(byteList []byte) int {
 		data = (data << 8) | int(b)
 	}
 	return data
+}
+
+func bytesToHexStrings(bytes []byte) string {
+	var output []string
+	for _, b := range bytes {
+		output = append(output, fmt.Sprintf("0x%02x", b))
+	}
+	return strings.Join(output, " ")
 }
