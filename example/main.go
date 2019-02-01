@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	ams "bitbucket.org/karlgustav/ams-han"
+	ams "github.com/karl-gustav/ams-han"
 )
 
 func main() {
