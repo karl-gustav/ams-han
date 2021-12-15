@@ -14,10 +14,10 @@ func (m *messageTypes) GetByte() byte {
 
 const (
 	messageType1           messageTypes = 1
-	twoFasesMessageType2   messageTypes = 9
-	twoFasesMessageType3   messageTypes = 14
-	threeFasesMessageType2 messageTypes = 13
-	threeFasesMessageType3 messageTypes = 18
+	singleFaseMessageType2   messageTypes = 9
+	singleFaseMessageType3   messageTypes = 14
+	threeFaseMessageType2 messageTypes = 13
+	threeFaseMessageType3 messageTypes = 18
 )
 
 type BaseItem struct {
@@ -31,7 +31,7 @@ type MessageType1 struct { // Also known as aka Items1
 	ActPowPos int `json:"Act_Pow_P_Q1_Q4"` /* OBIS Code 1.0.1.7.0.255 - Active Power + (Q1+Q4) */
 }
 
-type TwoFasesMessageType2 struct { // Also known as aka Items9
+type SingleFaseMessageType2 struct { // Also known as aka Items9
 	BaseItem
 	ObisListVersion string `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -44,7 +44,7 @@ type TwoFasesMessageType2 struct { // Also known as aka Items9
 	VoltL1          int    `json:"Volt_L1"`           /* Voltage L1 */
 }
 
-type ThreeFasesMessageType2 struct { // Also known as Items13
+type ThreeFaseMessageType2 struct { // Also known as Items13
 	BaseItem
 	ObisListVersion string `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -61,7 +61,7 @@ type ThreeFasesMessageType2 struct { // Also known as Items13
 	VoltL3          int    `json:"Volt_L3"`           /* Voltage L3 */
 }
 
-type TwoFasesMessageType3 struct { // Also known as Items14
+type SingleFaseMessageType3 struct { // Also known as Items14
 	BaseItem
 	ObisListVersion string    `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string    `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */
@@ -79,7 +79,7 @@ type TwoFasesMessageType3 struct { // Also known as Items14
 	ReactEnergyNeg  int       `json:"React_Energy_M"`
 }
 
-type ThreeFasesMessageType3 struct { // Also known as Items18
+type ThreeFaseMessageType3 struct { // Also known as Items18
 	BaseItem
 	ObisListVersion string    `json:"OBIS_List_Version"` /* OBIS Code 1.1.0.2.129.255 - OBIS List Version Identifier */
 	Gs1             string    `json:"GS1"`               /* OBIS Code 0.0.96.1.0.255 - Meter-ID(GIAI GS1 - 16 digits */

@@ -53,8 +53,8 @@ func BytesParser(byteList []byte) (v interface{}, err error) {
 			BaseItem:  baseItem,
 			ActPowPos: extractInt(&cursor, byteList),
 		}
-	case twoFasesMessageType2:
-		v = &TwoFasesMessageType2{
+	case singleFaseMessageType2:
+		v = &SingleFaseMessageType2{
 			BaseItem:        baseItem,
 			ObisListVersion: extractString(&cursor, byteList),
 			Gs1:             extractString(&cursor, byteList),
@@ -66,8 +66,8 @@ func BytesParser(byteList []byte) (v interface{}, err error) {
 			CurrL1:          extractInt(&cursor, byteList),
 			VoltL1:          extractInt(&cursor, byteList),
 		}
-	case threeFasesMessageType2:
-		v = &ThreeFasesMessageType2{
+	case threeFaseMessageType2:
+		v = &ThreeFaseMessageType2{
 			BaseItem:        baseItem,
 			ObisListVersion: extractString(&cursor, byteList),
 			Gs1:             extractString(&cursor, byteList),
@@ -83,8 +83,8 @@ func BytesParser(byteList []byte) (v interface{}, err error) {
 			VoltL2:          extractInt(&cursor, byteList),
 			VoltL3:          extractInt(&cursor, byteList),
 		}
-	case twoFasesMessageType3:
-		v = &TwoFasesMessageType3{
+	case singleFaseMessageType3:
+		v = &SingleFaseMessageType3{
 			BaseItem:        baseItem,
 			ObisListVersion: extractString(&cursor, byteList),
 			Gs1:             extractString(&cursor, byteList),
@@ -101,8 +101,8 @@ func BytesParser(byteList []byte) (v interface{}, err error) {
 			ReactEnergyPos:  extractInt(&cursor, byteList),
 			ReactEnergyNeg:  extractInt(&cursor, byteList),
 		}
-	case threeFasesMessageType3:
-		v = &ThreeFasesMessageType3{
+	case threeFaseMessageType3:
+		v = &ThreeFaseMessageType3{
 			BaseItem:        baseItem,
 			ObisListVersion: extractString(&cursor, byteList),
 			Gs1:             extractString(&cursor, byteList),

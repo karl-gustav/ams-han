@@ -64,7 +64,7 @@ func TestItem13(t *testing.T) {
 	voltL3 := 2394
 
 	switch v := message.(type) {
-	case *ThreeFasesMessageType2:
+	case *ThreeFaseMessageType2:
 		if v.MessageType != messageType {
 			t.Errorf("Unexpected value in MessageType, was %v, expected %v", v.MessageType, messageType)
 		}
@@ -148,7 +148,7 @@ func TestItem18(t *testing.T) {
 	actEnergyMr := 1888338
 
 	switch v := message.(type) {
-	case *ThreeFasesMessageType3:
+	case *ThreeFaseMessageType3:
 		if v.MessageType != messageType {
 			t.Errorf("Unexpected value in MessageType, was %v, expected %v", v.MessageType, messageType)
 		}
